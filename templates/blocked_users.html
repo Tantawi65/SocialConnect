@@ -1,0 +1,223 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blocked Users - Social Connect</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <style>
+        .blocked-users-container {
+            max-width: 600px;
+            margin: 80px auto 20px;
+            padding: 20px;
+        }
+        
+        .blocked-users-header {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .blocked-users-header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #050505;
+        }
+        
+        .blocked-users-header p {
+            margin: 10px 0 0;
+            color: #65676b;
+            font-size: 14px;
+        }
+        
+        .blocked-user-card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .blocked-user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .blocked-user-info {
+            flex: 1;
+        }
+        
+        .blocked-user-info h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #050505;
+        }
+        
+        .blocked-user-info p {
+            margin: 4px 0 0;
+            color: #65676b;
+            font-size: 13px;
+        }
+        
+        .unblock-btn {
+            padding: 8px 16px;
+            background: #e4e6eb;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #050505;
+            transition: background 0.2s;
+        }
+        
+        .unblock-btn:hover {
+            background: #d8dadf;
+        }
+        
+        .no-blocked-users {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            color: #65676b;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <h1>Social Connect</h1>
+                </div>
+            </div>
+            
+            <div class="nav-center">
+                <div class="nav-menu">
+                    <a href="{% url 'home' %}" class="nav-item">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <a href="{% url 'groups' %}" class="nav-item">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">Groups</span>
+                    </a>
+                    <a href="{% url 'messages' %}" class="nav-item">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Messages</span>
+                    </a>
+                    <a href="{% url 'notifications' %}" class="nav-item">
+                        <span class="nav-icon">🔔</span>
+                        <span class="nav-text">Notifications</span>
+                    </a>
+                    <a href="{% url 'profile' %}" class="nav-item">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">Profile</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <div class="user-menu">
+                    <img src="{{ user.get_profile_photo_url }}" alt="User Avatar" class="user-avatar" />
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="blocked-users-container">
+        <div class="blocked-users-header">
+            <h1>Blocked Users</h1>
+            <p>People you've blocked can't see your posts, tag you, or send you messages or friend requests.</p>
+        </div>
+        
+        {% if blocked_users %}
+            {% for block in blocked_users %}
+            <div class="blocked-user-card" data-username="{{ block.blocked.username }}">
+                <img src="{{ block.blocked.get_profile_photo_url }}" alt="{{ block.blocked.username }}" class="blocked-user-avatar">
+                <div class="blocked-user-info">
+                    <h3>{{ block.blocked.username }}</h3>
+                    <p>Blocked {{ block.created_at|timesince }} ago</p>
+                </div>
+                <button class="unblock-btn" data-username="{{ block.blocked.username }}">Unblock</button>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-blocked-users">
+                <p>You haven't blocked anyone.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        
+        // Unblock functionality
+        document.addEventListener('click', function(e) {
+            const unblockBtn = e.target.closest('.unblock-btn');
+            if (unblockBtn) {
+                const username = unblockBtn.dataset.username;
+                if (confirm(`Unblock ${username}?`)) {
+                    fetch(`/unblock/${username}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrftoken,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const card = document.querySelector(`.blocked-user-card[data-username="${username}"]`);
+                            if (card) {
+                                card.style.transition = 'opacity 0.3s';
+                                card.style.opacity = '0';
+                                setTimeout(() => {
+                                    card.remove();
+                                    // Check if no more blocked users
+                                    if (document.querySelectorAll('.blocked-user-card').length === 0) {
+                                        location.reload();
+                                    }
+                                }, 300);
+                            }
+                        } else {
+                            alert(data.error || 'Failed to unblock user');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred');
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

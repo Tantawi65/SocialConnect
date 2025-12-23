@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members - {{ group.name }} - Social Connect</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/groups.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <h1>Social Connect</h1>
+                </div>
+            </div>
+            
+            <div class="nav-center">
+                <div class="nav-menu">
+                    <a href="{% url 'home' %}" class="nav-item">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <a href="{% url 'groups' %}" class="nav-item active">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">Groups</span>
+                    </a>
+                    <a href="{% url 'messages' %}" class="nav-item">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Messages</span>
+                    </a>
+                    <a href="{% url 'notifications' %}" class="nav-item">
+                        <span class="nav-icon">🔔</span>
+                        <span class="nav-text">Notifications</span>
+                    </a>
+                    <a href="{% url 'profile' %}" class="nav-item">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">Profile</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <div class="user-menu">
+                    <img src="{{ user.get_profile_photo_url }}" alt="User Avatar" class="user-avatar" />
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container members-page">
+        <div class="members-container">
+            <div class="members-header">
+                <a href="{% url 'group_detail' group.id %}" class="back-link">← Back to {{ group.name }}</a>
+                <h1>Members</h1>
+                <p>{{ memberships|length }} member{{ memberships|length|pluralize }}</p>
+            </div>
+
+            <!-- Admins Section -->
+            <div class="members-section">
+                <h3>Admins & Creator</h3>
+                <div class="members-grid">
+                    {% for membership in memberships %}
+                    {% if membership.role in 'creator,admin' %}
+                    <div class="member-card">
+                        <a href="{% url 'profile' membership.user.username %}" class="member-avatar-link">
+                            <img src="{{ membership.user.get_profile_photo_url }}" alt="{{ membership.user.username }}" class="member-avatar">
+                            {% if membership.role == 'creator' %}
+                            <span class="role-badge-card creator">👑 Creator</span>
+                            {% else %}
+                            <span class="role-badge-card admin">⭐ Admin</span>
+                            {% endif %}
+                        </a>
+                        <div class="member-info">
+                            <h4><a href="{% url 'profile' membership.user.username %}">{{ membership.user.username }}</a></h4>
+                            <span class="member-since">Joined {{ membership.joined_at|date:"M j, Y" }}</span>
+                        </div>
+                        
+                        {% if is_creator and membership.role == 'admin' %}
+                        <div class="member-actions">
+                            <form method="post" action="{% url 'remove_admin' group.id membership.user.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary btn-sm" title="Remove Admin">Remove Admin</button>
+                            </form>
+                            <form method="post" action="{% url 'remove_member' group.id membership.user.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Remove this member?')">Remove</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Regular Members Section -->
+            <div class="members-section">
+                <h3>Members</h3>
+                <div class="members-grid">
+                    {% for membership in memberships %}
+                    {% if membership.role == 'member' %}
+                    <div class="member-card">
+                        <a href="{% url 'profile' membership.user.username %}" class="member-avatar-link">
+                            <img src="{{ membership.user.get_profile_photo_url }}" alt="{{ membership.user.username }}" class="member-avatar">
+                        </a>
+                        <div class="member-info">
+                            <h4><a href="{% url 'profile' membership.user.username %}">{{ membership.user.username }}</a></h4>
+                            <span class="member-since">Joined {{ membership.joined_at|date:"M j, Y" }}</span>
+                        </div>
+                        
+                        {% if is_admin and membership.user != user %}
+                        <div class="member-actions">
+                            {% if is_creator %}
+                            <form method="post" action="{% url 'make_admin' group.id membership.user.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary btn-sm" title="Make Admin">Make Admin</button>
+                            </form>
+                            {% endif %}
+                            <form method="post" action="{% url 'remove_member' group.id membership.user.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Remove this member from the group?')">Remove</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

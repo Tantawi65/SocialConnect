@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile - Social Connect</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/profile.css" />
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo and Search -->
+            <div class="nav-left">
+                <div class="logo">
+                    <h1>Social Connect</h1>
+                </div>
+                <div class="search-container">
+                    <input type="search" class="search-input" placeholder="Search Social Connect..." />
+                    <button class="search-btn" type="button">
+                        <span class="search-icon">🔍</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <div class="nav-center">
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-item">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <a href="messages.html" class="nav-item">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Messages</span>
+                    </a>
+                    <a href="profile.html" class="nav-item active">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">Profile</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- User Actions -->
+            <div class="nav-right">
+
+                <div class="user-menu">
+                    <img src="images/default-avatar.jpg" alt="User Avatar" class="user-avatar" />
+                    <div class="dropdown-menu">
+                        <a href="profile.html" class="dropdown-item">My Profile</a>
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="login.html" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <main class="profile-container">
+        <!-- Profile Header -->
+        <section class="profile-header">
+            <!-- Cover Photo -->
+            <div class="cover-photo-container">
+                <img src="images/default-cover.jpg" alt="Cover Photo" class="cover-photo" id="cover-photo" />
+                <button class="edit-cover-btn" id="edit-cover-btn" type="button">
+                    <span class="btn-icon">📷</span>
+                    <span class="btn-text">Edit Cover Photo</span>
+                </button>
+            </div>
+            
+            <!-- Profile Info -->
+            <div class="profile-info-section">
+                <div class="profile-picture-container">
+                    <img src="images/default-avatar.jpg" alt="Profile Picture" class="profile-picture" id="profile-picture" />
+                    <button class="edit-picture-btn" id="edit-picture-btn" type="button">
+                        <span class="edit-icon">📷</span>
+                    </button>
+                </div>
+                
+                <div class="profile-details">
+                    <h1 class="profile-name">John Doe</h1>
+                    <p class="profile-bio">Software Developer | Tech Enthusiast | Coffee Lover ☕</p>
+                    <div class="profile-stats">
+                        <span class="stat-item">
+                            <strong>156</strong> Friends
+                        </span>
+                        <span class="stat-item">
+                            <strong>47</strong> Posts
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <button class="btn btn-primary edit-profile-btn" type="button">
+                        <span class="btn-icon">✏️</span>
+                        <span class="btn-text">Edit Profile</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Content Area -->
+        <div class="profile-content">
+            <!-- Left Column -->
+            <aside class="profile-sidebar">
+                <!-- About Section -->
+                <div class="about-section">
+                    <h3 class="section-title">About</h3>
+                    <div class="about-content">
+                        <div class="about-item">
+                            <span class="about-icon">💼</span>
+                            <div class="about-text">
+                                <p><strong>Works at</strong></p>
+                                <p>Tech Solutions Inc.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="about-item">
+                            <span class="about-icon">🎓</span>
+                            <div class="about-text">
+                                <p><strong>Studied at</strong></p>
+                                <p>University of Technology</p>
+                            </div>
+                        </div>
+                        
+                        <div class="about-item">
+                            <span class="about-icon">🏠</span>
+                            <div class="about-text">
+                                <p><strong>Lives in</strong></p>
+                                <p>New York, NY</p>
+                            </div>
+                        </div>
+                        
+                        <div class="about-item">
+                            <span class="about-icon">📍</span>
+                            <div class="about-text">
+                                <p><strong>From</strong></p>
+                                <p>San Francisco, CA</p>
+                            </div>
+                        </div>
+                        
+                        <div class="about-item">
+                            <span class="about-icon">❤️</span>
+                            <div class="about-text">
+                                <p><strong>Relationship status</strong></p>
+                                <p>Single</p>
+                            </div>
+                        </div>
+                        
+                        <div class="about-item">
+                            <span class="about-icon">📅</span>
+                            <div class="about-text">
+                                <p><strong>Joined</strong></p>
+                                <p>January 2023</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-link edit-details-btn" type="button">
+                        Edit Details
+                    </button>
+                </div>
+                
+
+                
+                <!-- Friends Section -->
+                <div class="friends-section">
+                    <div class="section-header">
+                        <h3 class="section-title">Friends</h3>
+                        <a href="#" class="see-all-link">See All Friends</a>
+                    </div>
+                    
+                    <div class="friends-grid">
+                        <div class="friend-item">
+                            <img src="images/default-avatar.jpg" alt="Friend 1" class="friend-avatar" />
+                            <p class="friend-name">Shehab Abdelmaaboud</p>
+                        </div>
+                        <div class="friend-item">
+                            <img src="images/default-avatar.jpg" alt="Friend 2" class="friend-avatar" />
+                            <p class="friend-name">Seif Khalid</p>
+                        </div>
+                        <div class="friend-item">
+                            <img src="images/default-avatar.jpg" alt="Friend 3" class="friend-avatar" />
+                            <p class="friend-name">Junior Ajaii</p>
+                        </div>
+                        <div class="friend-item">
+                            <img src="images/default-avatar.jpg" alt="Friend 4" class="friend-avatar" />
+                            <p class="friend-name">Maro</p>
+                        </div>
+                        <div class="friend-item">
+                            <img src="images/default-avatar.jpg" alt="Friend 5" class="friend-avatar" />
+                            <p class="friend-name">Ahmed Antar</p>
+                        </div>
+                        <div class="friend-item">
+                            <img src="images/default-avatar.jpg" alt="Friend 6" class="friend-avatar" />
+                            <p class="friend-name">Abla</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <section class="profile-main">
+
+
+
+
+                <!-- Posts Container -->
+                <div class="profile-posts" id="posts-content">
+                    <!-- Sample User Post -->
+                    <article class="post-card">
+                        <header class="post-header">
+                            <img src="images/default-avatar.jpg" alt="User Avatar" class="post-avatar" />
+                            <div class="post-info">
+                                <h4 class="post-author">John Doe</h4>
+                                <time class="post-time">6 hours ago</time>
+                            </div>
+                            <button class="post-menu-btn" type="button">⋯</button>
+                        </header>
+                        
+                        <div class="post-content">
+                            <p>Just completed my latest web development project!</p>
+                        </div>
+                        
+                        <div class="post-media">
+                            <img src="images/sample-project.jpg" alt="Project Screenshot" class="post-image" />
+                        </div>
+                        
+                        <footer class="post-footer">
+                            <div class="post-stats">
+                                <span class="likes-count">28 likes</span>
+                                <span class="comments-count">5 comments</span>
+                            </div>
+                            
+                            <div class="post-actions">
+                                <button class="action-btn like-btn" type="button">
+                                    <span class="action-icon">👍</span>
+                                    <span class="action-text">Like</span>
+                                </button>
+                                <button class="action-btn comment-btn" type="button">
+                                    <span class="action-icon">💬</span>
+                                    <span class="action-text">Comment</span>
+                                </button>
+                                <button class="action-btn share-btn" type="button">
+                                    <span class="action-icon">📤</span>
+                                    <span class="action-text">Share</span>
+                                </button>
+                            </div>
+                        </footer>
+                    </article>
+
+                    <!-- Another Sample Post -->
+                    <article class="post-card">
+                        <header class="post-header">
+                            <img src="images/default-avatar.jpg" alt="User Avatar" class="post-avatar" />
+                            <div class="post-info">
+                                <h4 class="post-author">John Doe</h4>
+                                <time class="post-time">1 day ago</time>
+                            </div>
+                            <button class="post-menu-btn" type="button">⋯</button>
+                        </header>
+                        
+                        <div class="post-content">
+                            <p>Preparing to watch Barca game tonight against Atletico Madrid</p>
+                        </div>
+                        
+                        <footer class="post-footer">
+                            <div class="post-stats">
+                                <span class="likes-count">15 likes</span>
+                                <span class="comments-count">3 comments</span>
+                            </div>
+                            
+                            <div class="post-actions">
+                                <button class="action-btn like-btn" type="button">
+                                    <span class="action-icon">👍</span>
+                                    <span class="action-text">Like</span>
+                                </button>
+                                <button class="action-btn comment-btn" type="button">
+                                    <span class="action-icon">💬</span>
+                                    <span class="action-text">Comment</span>
+                                </button>
+                                <button class="action-btn share-btn" type="button">
+                                    <span class="action-icon">📤</span>
+                                    <span class="action-text">Share</span>
+                                </button>
+                            </div>
+                        </footer>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal hidden" id="edit-profile-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>Edit Profile</h2>
+                <button class="modal-close-btn" type="button">&times;</button>
+            </header>
+            
+            <div class="modal-body">
+                <form class="edit-profile-form" id="edit-profile-form">
+                    <div class="form-section">
+                        <h3>Basic Information</h3>
+                        
+                        <div class="input-group">
+                            <label class="input-label">First Name</label>
+                            <input type="text" class="form-input" id="edit-first-name" value="John" />
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Last Name</label>
+                            <input type="text" class="form-input" id="edit-last-name" value="Doe" />
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Bio</label>
+                            <textarea class="form-textarea" id="edit-bio" rows="3">Software Developer | Tech Enthusiast | Coffee Lover</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Work and Education</h3>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Work</label>
+                            <input type="text" class="form-input" id="edit-work" value="Tech Solutions Inc." />
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Education</label>
+                            <input type="text" class="form-input" id="edit-education" value="University of Technology" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Location</h3>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Current City</label>
+                            <input type="text" class="form-input" id="edit-location" value="New York, NY" />
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Hometown</label>
+                            <input type="text" class="form-input" id="edit-hometown" value="San Francisco, CA" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Relationship Status</label>
+                            <select class="form-input" id="edit-relationship-status">
+                                <option value="Single">Single</option>
+                                <option value="In a relationship">In a relationship</option>
+                                <option value="Married">Married</option>
+                                <option value="Engaged">Engaged</option>
+                                <option value="It's complicated">It's complicated</option>
+                                <option value="In an open relationship">In an open relationship</option>
+                                <option value="Widowed">Widowed</option>
+                                <option value="Separated">Separated</option>
+                                <option value="Divorced">Divorced</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <footer class="modal-footer">
+                <button class="btn btn-cancel" type="button">Cancel</button>
+                <button class="btn btn-save" type="button">Save Changes</button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script type="text/javascript" src="js/auth.js"></script>
+    <script type="text/javascript" src="js/profile.js"></script>
+</body>
+</html>

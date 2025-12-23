@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Social Connect</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/notifications.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <h1>Social Connect</h1>
+                </div>
+            </div>
+            
+            <div class="nav-center">
+                <div class="nav-menu">
+                    <a href="{% url 'home' %}" class="nav-item">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <a href="{% url 'groups' %}" class="nav-item">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">Groups</span>
+                    </a>
+                    <a href="{% url 'messages' %}" class="nav-item">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Messages</span>
+                    </a>
+                    <a href="{% url 'notifications' %}" class="nav-item active">
+                        <span class="nav-icon">🔔</span>
+                        <span class="nav-text">Notifications</span>
+                        {% if unread_count > 0 %}
+                        <span class="badge">{{ unread_count }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="{% url 'profile' %}" class="nav-item">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">Profile</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <div class="user-menu">
+                    <img src="{{ user.get_profile_photo_url }}" alt="User Avatar" class="user-avatar" />
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container notifications-page">
+        <div class="notifications-container">
+            <div class="notifications-header">
+                <h1>🔔 Notifications</h1>
+                <div class="header-actions">
+                    {% if unread_count > 0 %}
+                    <form method="post" action="{% url 'mark_all_notifications_read' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary btn-sm">Mark All as Read</button>
+                    </form>
+                    {% endif %}
+                    {% if notifications %}
+                    <form method="post" action="{% url 'clear_all_notifications' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Clear all notifications?')">Clear All</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if notifications %}
+            <div class="notifications-list">
+                {% for notification in notifications %}
+                <div class="notification-item {% if not notification.is_read %}unread{% endif %}" data-id="{{ notification.id }}">
+                    <div class="notification-avatar">
+                        {% if notification.sender %}
+                        <img src="{{ notification.sender.get_profile_photo_url }}" alt="{{ notification.sender.username }}">
+                        {% else %}
+                        <div class="system-icon">🔔</div>
+                        {% endif %}
+                        
+                        <span class="notification-type-icon">
+                            {% if notification.notification_type == 'friend_request' %}👋
+                            {% elif notification.notification_type == 'friend_accept' %}🤝
+                            {% elif notification.notification_type == 'post_like' %}👍
+                            {% elif notification.notification_type == 'post_comment' %}💬
+                            {% elif notification.notification_type == 'message' %}✉️
+                            {% elif notification.notification_type == 'group_invite' %}👥
+                            {% elif notification.notification_type == 'group_join_request' %}📥
+                            {% elif notification.notification_type == 'group_join_approved' %}✅
+                            {% elif notification.notification_type == 'group_join_rejected' %}❌
+                            {% elif notification.notification_type == 'group_post' %}📝
+                            {% elif notification.notification_type == 'group_comment' %}💬
+                            {% elif notification.notification_type == 'group_like' %}👍
+                            {% elif notification.notification_type == 'group_admin' %}⭐
+                            {% elif notification.notification_type == 'group_removed' %}🚫
+                            {% elif notification.notification_type == 'group_role_change' %}🔄
+                            {% else %}📣
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="notification-content">
+                        <p class="notification-title">{{ notification.title }}</p>
+                        {% if notification.message %}
+                        <p class="notification-message">{{ notification.message }}</p>
+                        {% endif %}
+                        <span class="notification-time">{{ notification.created_at|timesince }} ago</span>
+                    </div>
+                    
+                    <div class="notification-actions">
+                        {% if notification.link %}
+                        <a href="{% url 'mark_notification_read' notification.id %}" class="btn btn-primary btn-sm">View</a>
+                        {% elif not notification.is_read %}
+                        <form method="post" action="{% url 'mark_notification_read' notification.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-secondary btn-sm">Mark Read</button>
+                        </form>
+                        {% endif %}
+                        <form method="post" action="{% url 'delete_notification' notification.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-icon" title="Delete">🗑️</button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">🔔</div>
+                <h3>No Notifications</h3>
+                <p>You're all caught up! Check back later for new updates.</p>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

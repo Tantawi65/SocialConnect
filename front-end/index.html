@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Social Connect - Home</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/home.css" />
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo and Search -->
+            <div class="nav-left">
+                <div class="logo">
+                    <h1>Social Connect</h1>
+                </div>
+                <div class="search-container">
+                    <input type="search" class="search-input" placeholder="Search Social Connect..." />
+                    <button class="search-btn" type="button">
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <div class="nav-center">
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-item active">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <a href="messages.html" class="nav-item">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Messages</span>
+                    </a>
+                    <a href="profile.html" class="nav-item">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">Profile</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- User Actions -->
+            <div class="nav-right">
+
+                <div class="user-menu">
+                    <img src="images/default-avatar.jpg" alt="User Avatar" class="user-avatar" />
+                    <div class="dropdown-menu">
+                        <a href="profile.html" class="dropdown-item">My Profile</a>
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="login.html" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="main-container">
+        <!-- Left Sidebar -->
+        <aside class="left-sidebar">
+            <div class="sidebar-section">
+                <div class="user-card" id="profile-link">
+                    <img src="images/default-avatar.jpg" alt="Your Profile" class="profile-img" />
+                    <div class="user-info">
+                        <h3>Tantawi</h3>
+                        <p>See your profile</p>
+                    </div>
+                </div>
+            </div>
+        
+        </aside>
+
+        <!-- Center Feed -->
+        <section class="center-feed">
+            <!-- Post Creation Box -->
+            <div class="post-creator">
+                <div class="creator-header">
+                    <img src="images/default-avatar.jpg" alt="Your Avatar" class="creator-avatar" />
+                    <button class="create-post-btn" type="button" id="open-post-modal">What's on your mind, John?</button>
+                </div>
+                <div class="creator-actions">
+                    <button class="action-btn" type="button" id="photo-video-btn">
+                        <span class="action-icon">📷</span>
+                        <span class="action-text">Photo/Video</span>
+                    </button>
+                    <button class="action-btn" type="button" id="feeling-activity-btn">
+                        <span class="action-icon">😊</span>
+                        <span class="action-text">Feeling/Activity</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Posts Feed -->
+            <div class="posts-container">
+                <!-- Sample Post 1 -->
+                <article class="post-card" data-post-id="post-sample-1">
+                    <header class="post-header">
+                        <img src="images/default-avatar.jpg" alt="User Avatar" class="post-avatar" />
+                        <div class="post-info">
+                            <h4 class="post-author">Ibrahim The White</h4>
+                            <time class="post-time">2 hours ago</time>
+                        </div>
+                        <button class="post-menu" type="button" aria-label="Post options">
+                            <span class="menu-dots">⋯</span>
+                        </button>
+                    </header>
+                    
+                    <div class="post-content">
+                        <p>Just finished an amazing sunset hike! The view from the top was absolutely OMG. Can we just chill and play FC 26?</p>
+                    </div>
+                    
+                    <div class="post-media">
+                        <img src="images/sunset-hike.svg" alt="Sunset view" class="post-image" />
+                    </div>
+                    
+                    <footer class="post-footer">
+                        <div class="post-actions">
+                            <button class="action-btn like-btn" type="button" data-action="like">
+                                <span class="action-icon">👍</span>
+                                <span class="action-text">Like</span>
+                                <span class="action-count">42</span>
+                            </button>
+                            <button class="action-btn comment-btn" type="button" data-action="comment">
+                                <span class="action-icon">💬</span>
+                                <span class="action-text">Comment</span>
+                                <span class="action-count">8</span>
+                            </button>
+                            <button class="action-btn share-btn" type="button" data-action="share">
+                                <span class="action-icon">📤</span>
+                                <span class="action-text">Share</span>
+                                <span class="action-count">5</span>
+                            </button>
+                        </div>
+                    </footer>
+                    
+                    <div class="post-comments" style="display: none;"></div>
+                </article>
+
+                <!-- Sample Post 2 -->
+                <article class="post-card" data-post-id="post-sample-2">
+                    <header class="post-header">
+                        <img src="images/default-avatar.jpg" alt="User Avatar" class="post-avatar" />
+                        <div class="post-info">
+                            <h4 class="post-author">Leonel Messi</h4>
+                            <time class="post-time">4 hours ago</time>
+                        </div>
+                        <button class="post-menu" type="button" aria-label="Post options">
+                            <span class="menu-dots">⋯</span>
+                        </button>
+                    </header>
+                    
+                    <div class="post-content">
+                        <p>Excited to share that I just arrived from my home, Mars! Looking for giving a shower for more La Masia players to get more players like Lamine Yamal!!</p>
+                    </div>
+                    
+                    <footer class="post-footer">
+                        <div class="post-actions">
+                            <button class="action-btn like-btn" type="button" data-action="like">
+                                <span class="action-icon">👍</span>
+                                <span class="action-text">Like</span>
+                                <span class="action-count">67</span>
+                            </button>
+                            <button class="action-btn comment-btn" type="button" data-action="comment">
+                                <span class="action-icon">💬</span>
+                                <span class="action-text">Comment</span>
+                                <span class="action-count">15</span>
+                            </button>
+                            <button class="action-btn share-btn" type="button" data-action="share">
+                                <span class="action-icon">📤</span>
+                                <span class="action-text">Share</span>
+                                <span class="action-count">9</span>
+                            </button>
+                        </div>
+                    </footer>
+                    
+                    <div class="post-comments" style="display: none;"></div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <div class="sidebar-section">
+                <h3 class="section-title">Friend Requests</h3>
+                <div class="friend-requests">
+                    <div class="friend-request">
+                        <img src="images/default-avatar.jpg" alt="Friend Request" class="friend-avatar" />
+                        <div class="friend-info">
+                            <h4>John Wick</h4>
+                            <p>2 mutual friends</p>
+                            <div class="friend-actions">
+                                <button class="btn btn-confirm" type="button">Confirm</button>
+                                <button class="btn btn-delete" type="button">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3 class="section-title">People You May Know</h3>
+                <div class="suggestions">
+                    <div class="suggestion">
+                        <img src="images/default-avatar.jpg" alt="Suggestion" class="suggestion-avatar" />
+                        <div class="suggestion-info">
+                            <h4>Mr Hansi Flick</h4>
+                            <p>5 mutual friends</p>
+                            <button class="btn btn-add" type="button">Add Friend</button>
+                        </div>
+                    </div>
+                    <div class="suggestion">
+                        <img src="images/default-avatar.jpg" alt="Suggestion" class="suggestion-avatar" />
+                        <div class="suggestion-info">
+                            <h4>Tahseen Abo Elmhasen</h4>
+                            <p>3 mutual friends</p>
+                            <button class="btn btn-add" type="button">Add Friend</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+
+
+
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+    </div>
+    
+    <!-- Post Creation Modal -->
+    <div class="modal" id="post-modal" style="display: none;">
+        <div class="modal-content post-modal-content">
+            <div class="modal-header">
+                <h3>Create Post</h3>
+                <button class="modal-close" id="close-post-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="post-user-info">
+                    <img src="images/default-avatar.jpg" alt="Your Avatar" class="modal-avatar" />
+                    <div class="user-details">
+                        <h4>John Doe</h4>
+                        <select class="privacy-select">
+                            <option value="public">🌍 Public</option>
+                            <option value="friends">👥 Friends</option>
+                            <option value="private">🔒 Only me</option>
+                        </select>
+                    </div>
+                </div>
+                <textarea class="modal-post-textarea" placeholder="What's on your mind, user?" id="modal-post-content"></textarea>
+                <div class="post-options">
+                    <div class="media-preview" id="media-preview" style="display: none;"></div>
+                    <div class="post-actions-bar">
+                        <span class="add-to-post">Add to your post:</span>
+                        <button class="post-option-btn" id="add-photo-btn" title="Photo/Video">
+                            <span class="option-icon">📷</span>
+                        </button>
+                        <button class="post-option-btn" id="add-feeling-btn" title="Feeling/Activity">
+                            <span class="option-icon">😊</span>
+                        </button>
+                        <button class="post-option-btn" id="add-location-btn" title="Check in">
+                            <span class="option-icon">📍</span>
+                        </button>
+                    </div>
+                </div>
+                <input type="file" id="file-input" accept="image/*,video/*" style="display: none;" />
+            </div>
+            <div class="modal-footer">
+                <button class="post-submit-btn" id="submit-post" disabled>Post</button>
+            </div>
+        </div>
+        <div class="modal-backdrop"></div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script type="text/javascript" src="js/api-config.js"></script>
+    <script type="text/javascript" src="js/auth.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/dynamic-home.js"></script>
+</body>
+</html>

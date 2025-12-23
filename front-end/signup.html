@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Social Connect - Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/auth.css" />
+</head>
+<body class="auth-body">
+    <!-- Authentication Container -->
+    <div class="auth-container">
+        <!-- Brand Section -->
+        <div class="brand-section">
+            <h1 class="brand-title">Social Connect</h1>
+            <p class="brand-subtitle">Create an account to connect with friends and share your moments.</p>
+        </div>
+        
+        <!-- Registration Form Section -->
+        <div class="form-section">
+            <div class="form-container">
+                <form class="auth-form" id="signup-form">
+                    <h2 class="form-title">Sign Up</h2>
+                    <p class="form-subtitle">It's quick and easy.</p>
+                    
+                    <!-- Name Inputs Row -->
+                    <div class="input-row">
+                        <div class="input-group">
+                            <input 
+                                type="text" 
+                                class="form-input" 
+                                id="first-name" 
+                                name="firstName" 
+                                placeholder="First name" 
+                                required="required"
+                            />
+                            <span class="input-error hidden" id="first-name-error">First name is required</span>
+                        </div>
+                        
+                        <div class="input-group">
+                            <input 
+                                type="text" 
+                                class="form-input" 
+                                id="last-name" 
+                                name="lastName" 
+                                placeholder="Last name" 
+                                required="required"
+                            />
+                            <span class="input-error hidden" id="last-name-error">Last name is required</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Email Input -->
+                    <div class="input-group">
+                        <input 
+                            type="email" 
+                            class="form-input" 
+                            id="signup-email" 
+                            name="email" 
+                            placeholder="Email address" 
+                            required="required"
+                        />
+                        <span class="input-error hidden" id="signup-email-error">Please enter a valid email address</span>
+                    </div>
+                    
+                    <!-- Password Input -->
+                    <div class="input-group">
+                        <div class="password-container">
+                            <input 
+                                type="password" 
+                                class="form-input" 
+                                id="signup-password" 
+                                name="password" 
+                                placeholder="Password" 
+                                required="required"
+                            />
+                        </div>
+                        <span class="input-error hidden" id="signup-password-error">Password must be at least 6 characters</span>
+                        <!-- <div class="password-strength" id="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill"></div>
+                            </div>
+                            <span class="strength-text">Password strength</span>
+                        </div> -->
+                    </div>
+                    
+                    <!-- Confirm Password Input
+                    <div class="input-group">
+                        <input 
+                            type="password" 
+                            class="form-input" 
+                            id="confirm-password" 
+                            name="confirmPassword" 
+                            placeholder="Confirm password" 
+                            required="required"
+                        />
+                        <span class="input-error hidden" id="confirm-password-error">Passwords do not match</span>
+                    </div> -->
+                    
+                    <!-- Date of Birth -->
+                    <div class="input-group">
+                        <label class="input-label">Date of birth</label>
+                        <div class="date-inputs">
+                            <select class="form-select" id="birth-month" name="birthMonth" required="required">
+                                <option value="">Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                            
+                            <select class="form-select" id="birth-day" name="birthDay" required="required">
+                                <option value="">Day</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                        </select>
+
+                            
+                            <input type="text" class="form-select" id="birth-year" name="birthYear" required="required" placeholder="Year">
+                            </input>
+                        </div>
+                        <span class="input-error hidden" id="birth-date-error">Please provide a valid date of birth</span>
+                    </div>
+                    
+                    <!-- Gender Selection -->
+                    <div class="input-group">
+                        <label class="input-label">Gender</label>
+                        <div class="gender-options">
+                            <label class="radio-label">
+                                <input type="radio" name="gender" value="female" class="radio-input" />
+                                <span class="radio-text">Female</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="gender" value="male" class="radio-input" />
+                                <span class="radio-text">Male</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="gender" value="other" class="radio-input" />
+                                <span class="radio-text">Other</span>
+                            </label>
+                        </div>
+                        <span class="input-error hidden" id="gender-error">Please select your gender</span>
+                    </div>
+                    
+                    <!-- Terms and Privacy -->
+                    <div class="terms-section">
+                        <p class="terms-text">
+                            By clicking Sign Up, you agree to our 
+                            <a href="#" class="terms-link">Terms</a>, 
+                            <a href="#" class="terms-link">Data Policy</a> and 
+                            <a href="#" class="terms-link">Cookie Policy</a>. 
+                            You may receive SMS notifications from us and can opt out at any time.
+                        </p>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-btn" id="signup-btn">
+                        <span class="btn-text">Sign Up</span>
+                        <span class="btn-spinner hidden"></span>
+                    </button>
+                    
+                    <!-- Form Error Message -->
+                    <div class="form-error hidden" id="signup-form-error">
+                        Something went wrong. Please try again.
+                    </div>
+                    
+                    <!-- Login Link -->
+                    <div class="form-links">
+                        <a href="login.html" class="login-link">Already have an account? Log In</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script type="text/javascript" src="js/api-config.js"></script>
+    <script type="text/javascript" src="js/auth.js"></script>
+</body>
+</html>

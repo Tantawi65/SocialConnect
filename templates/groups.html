@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groups - Social Connect</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/groups.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <h1>Social Connect</h1>
+                </div>
+            </div>
+            
+            <div class="nav-center">
+                <div class="nav-menu">
+                    <a href="{% url 'home' %}" class="nav-item">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <a href="{% url 'groups' %}" class="nav-item active">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">Groups</span>
+                    </a>
+                    <a href="{% url 'messages' %}" class="nav-item">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Messages</span>
+                    </a>
+                    <a href="{% url 'notifications' %}" class="nav-item">
+                        <span class="nav-icon">🔔</span>
+                        <span class="nav-text">Notifications</span>
+                    </a>
+                    <a href="{% url 'profile' %}" class="nav-item">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">Profile</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <div class="user-menu">
+                    <img src="{{ user.get_profile_photo_url }}" alt="User Avatar" class="user-avatar" />
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container groups-page">
+        <!-- Left Sidebar -->
+        <aside class="groups-sidebar">
+            <div class="sidebar-header">
+                <h2>Groups</h2>
+                <a href="{% url 'create_group' %}" class="btn btn-primary">+ Create Group</a>
+            </div>
+            
+            <div class="sidebar-menu">
+                <a href="{% url 'groups' %}" class="menu-item {% if not discover_mode %}active{% endif %}">
+                    <span class="menu-icon">📋</span>
+                    <span>Your Groups</span>
+                </a>
+                <a href="{% url 'groups' %}?discover=1" class="menu-item {% if discover_mode %}active{% endif %}">
+                    <span class="menu-icon">🔍</span>
+                    <span>Discover</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <section class="groups-content">
+            {% if not discover_mode %}
+            <!-- Your Groups Section -->
+            <div class="groups-section">
+                <h3 class="section-title">Your Groups</h3>
+                
+                {% if my_groups %}
+                <div class="groups-grid">
+                    {% for group in my_groups %}
+                    <div class="group-card">
+                        <a href="{% url 'group_detail' group.id %}">
+                            <div class="group-cover" style="background-image: url('{{ group.get_cover_photo_url }}');">
+                                {% if group.is_private %}
+                                <span class="private-badge">🔒 Private</span>
+                                {% endif %}
+                            </div>
+                        </a>
+                        <div class="group-info">
+                            <h4><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></h4>
+                            <p class="group-meta">{{ group.member_count }} member{{ group.member_count|pluralize }}</p>
+                            <p class="group-description">{{ group.description|truncatewords:15 }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <p>You haven't joined any groups yet.</p>
+                    <a href="{% url 'create_group' %}" class="btn btn-primary">Create Your First Group</a>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Discover Groups Section -->
+            <div class="groups-section">
+                <h3 class="section-title">{% if discover_mode %}Discover New Groups{% else %}Discover Groups{% endif %}</h3>
+                
+                {% if discover_groups %}
+                <div class="groups-grid">
+                    {% for group in discover_groups %}
+                    <div class="group-card">
+                        <a href="{% url 'group_detail' group.id %}">
+                            <div class="group-cover" style="background-image: url('{{ group.get_cover_photo_url }}');">
+                            </div>
+                        </a>
+                        <div class="group-info">
+                            <h4><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></h4>
+                            <p class="group-meta">{{ group.member_count }} member{{ group.member_count|pluralize }}</p>
+                            <p class="group-description">{{ group.description|truncatewords:15 }}</p>
+                            <div class="group-actions">
+                                {% if group.id in pending_requests %}
+                                <span class="pending-badge">Request Pending</span>
+                                {% else %}
+                                <form method="post" action="{% url 'join_group' group.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-sm">Join Group</button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <p>No groups to discover at the moment.</p>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

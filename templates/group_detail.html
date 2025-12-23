@@ -1,0 +1,350 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ group.name }} - Social Connect</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/groups.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <h1>Social Connect</h1>
+                </div>
+            </div>
+            
+            <div class="nav-center">
+                <div class="nav-menu">
+                    <a href="{% url 'home' %}" class="nav-item">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <a href="{% url 'groups' %}" class="nav-item active">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">Groups</span>
+                    </a>
+                    <a href="{% url 'messages' %}" class="nav-item">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Messages</span>
+                    </a>
+                    <a href="{% url 'notifications' %}" class="nav-item">
+                        <span class="nav-icon">🔔</span>
+                        <span class="nav-text">Notifications</span>
+                    </a>
+                    <a href="{% url 'profile' %}" class="nav-item">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">Profile</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <div class="user-menu">
+                    <img src="{{ user.get_profile_photo_url }}" alt="User Avatar" class="user-avatar" />
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container group-detail-page">
+        <!-- Group Header -->
+        <div class="group-header-section">
+            <div class="group-cover-large" style="background-image: url('{{ group.get_cover_photo_url }}');">
+                {% if group.is_private %}
+                <span class="private-badge-large">🔒 Private Group</span>
+                {% endif %}
+            </div>
+            
+            <div class="group-header-info">
+                <div class="group-title-area">
+                    <h1>{{ group.name }}</h1>
+                    <p class="group-meta">
+                        {% if group.is_private %}🔒 Private{% else %}🌍 Public{% endif %} · 
+                        {{ group.member_count }} member{{ group.member_count|pluralize }}
+                    </p>
+                </div>
+                
+                <div class="group-actions-header">
+                    {% if is_member %}
+                        {% if is_admin %}
+                        <a href="{% url 'edit_group' group.id %}" class="btn btn-secondary">⚙️ Edit Group</a>
+                        {% endif %}
+                        
+                        {% if not is_creator %}
+                        <form method="post" action="{% url 'leave_group' group.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to leave this group?')">Leave Group</button>
+                        </form>
+                        {% endif %}
+                        
+                        {% if is_creator %}
+                        <form method="post" action="{% url 'delete_group' group.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this group? This cannot be undone.')">🗑️ Delete Group</button>
+                        </form>
+                        {% endif %}
+                    {% elif has_pending_request %}
+                        <span class="btn btn-secondary disabled">Request Pending</span>
+                    {% else %}
+                        <form method="post" action="{% url 'join_group' group.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">+ Join Group</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Group Navigation Tabs -->
+            <div class="group-tabs">
+                <a href="{% url 'group_detail' group.id %}" class="tab-item active">Posts</a>
+                <a href="{% url 'group_members' group.id %}" class="tab-item">Members</a>
+                {% if is_admin %}
+                <a href="#" class="tab-item" onclick="document.getElementById('admin-panel').scrollIntoView({behavior: 'smooth'}); return false;">Admin</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="group-content-wrapper">
+            <!-- Left Column: About & Members -->
+            <aside class="group-sidebar">
+                <!-- About Section -->
+                <div class="sidebar-card">
+                    <h3>About</h3>
+                    <p>{{ group.description|default:"No description provided." }}</p>
+                    <div class="about-details">
+                        <p><strong>Created:</strong> {{ group.created_at|date:"F j, Y" }}</p>
+                        <p><strong>Creator:</strong> <a href="{% url 'profile' group.creator.username %}">{{ group.creator.username }}</a></p>
+                    </div>
+                </div>
+
+                <!-- Members Preview -->
+                <div class="sidebar-card">
+                    <div class="card-header">
+                        <h3>Members · {{ group.member_count }}</h3>
+                        <a href="{% url 'group_members' group.id %}" class="see-all">See All</a>
+                    </div>
+                    <div class="members-preview">
+                        {% for membership in members|slice:":6" %}
+                        <a href="{% url 'profile' membership.user.username %}" class="member-item" title="{{ membership.user.username }}">
+                            <img src="{{ membership.user.get_profile_photo_url }}" alt="{{ membership.user.username }}">
+                            {% if membership.role == 'creator' %}
+                            <span class="role-badge creator">👑</span>
+                            {% elif membership.role == 'admin' %}
+                            <span class="role-badge admin">⭐</span>
+                            {% endif %}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Admin Panel (only for admins) -->
+                {% if is_admin and pending_requests %}
+                <div class="sidebar-card admin-card" id="admin-panel">
+                    <h3>🛡️ Admin Panel</h3>
+                    
+                    <!-- Pending Join Requests -->
+                    <div class="pending-requests">
+                        <h4>Pending Requests ({{ pending_requests|length }})</h4>
+                        {% for request in pending_requests %}
+                        <div class="request-item">
+                            <div class="request-user">
+                                <img src="{{ request.user.get_profile_photo_url }}" alt="{{ request.user.username }}">
+                                <div class="request-info">
+                                    <a href="{% url 'profile' request.user.username %}">{{ request.user.username }}</a>
+                                    <span class="request-time">{{ request.joined_at|timesince }} ago</span>
+                                </div>
+                            </div>
+                            <div class="request-actions">
+                                <form method="post" action="{% url 'approve_join_request' group.id request.user.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm">✓</button>
+                                </form>
+                                <form method="post" action="{% url 'reject_join_request' group.id request.user.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">✕</button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </aside>
+
+            <!-- Main Content: Posts -->
+            <section class="group-main-content">
+                {% if is_member %}
+                <!-- Create Post Box -->
+                <div class="create-post-card">
+                    <form method="post" action="{% url 'create_group_post' group.id %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="create-post-header">
+                            <img src="{{ user.get_profile_photo_url }}" alt="Your Avatar" class="user-avatar-sm">
+                            <textarea name="content" placeholder="What's on your mind?" required></textarea>
+                        </div>
+                        <div class="create-post-footer">
+                            <div class="post-options">
+                                <label class="option-btn">
+                                    <input type="file" name="image" accept="image/*" style="display: none;">
+                                    📷 Photo
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Post</button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+
+                <!-- Posts Feed -->
+                <div class="posts-feed">
+                    {% for post in posts %}
+                    <article class="post-card" data-post-id="{{ post.id }}">
+                        <header class="post-header">
+                            <img src="{{ post.user.get_profile_photo_url }}" alt="{{ post.user.username }}" class="post-avatar">
+                            <div class="post-info">
+                                <h4><a href="{% url 'profile' post.user.username %}">{{ post.user.username }}</a></h4>
+                                <span class="post-time">{{ post.created_at|timesince }} ago</span>
+                                {% if post.is_pinned %}
+                                <span class="pinned-badge">📌 Pinned</span>
+                                {% endif %}
+                            </div>
+                            
+                            {% if post.user == user or is_admin %}
+                            <div class="post-menu">
+                                <button class="menu-toggle">⋯</button>
+                                <div class="dropdown-menu">
+                                    {% if is_admin %}
+                                    <form method="post" action="{% url 'pin_group_post' group.id post.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item">
+                                            {% if post.is_pinned %}📌 Unpin{% else %}📌 Pin{% endif %}
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                    <form method="post" action="{% url 'delete_group_post' group.id post.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item danger" onclick="return confirm('Delete this post?')">🗑️ Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </header>
+                        
+                        <div class="post-content">
+                            <p>{{ post.content }}</p>
+                            {% if post.image %}
+                            <div class="post-image">
+                                <img src="{{ post.image.url }}" alt="Post image">
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <footer class="post-footer">
+                            <div class="post-stats">
+                                <span>{{ post.likes.count }} like{{ post.likes.count|pluralize }}</span>
+                                <span>{{ post.comments.count }} comment{{ post.comments.count|pluralize }}</span>
+                            </div>
+                            
+                            {% if is_member %}
+                            <div class="post-actions">
+                                <button class="action-btn like-btn" data-group-id="{{ group.id }}" data-post-id="{{ post.id }}">
+                                    👍 Like
+                                </button>
+                                <button class="action-btn comment-btn" onclick="toggleComments({{ post.id }})">
+                                    💬 Comment
+                                </button>
+                            </div>
+                            {% endif %}
+                        </footer>
+                        
+                        <!-- Comments Section -->
+                        <div class="comments-section" id="comments-{{ post.id }}" style="display: none;">
+                            <div class="comments-list">
+                                {% for comment in post.comments.all %}
+                                <div class="comment-item">
+                                    <img src="{{ comment.user.get_profile_photo_url }}" alt="{{ comment.user.username }}" class="comment-avatar">
+                                    <div class="comment-content">
+                                        <strong><a href="{% url 'profile' comment.user.username %}">{{ comment.user.username }}</a></strong>
+                                        <p>{{ comment.content }}</p>
+                                        <span class="comment-time">{{ comment.created_at|timesince }} ago</span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                            {% if is_member %}
+                            <form class="comment-form" method="post" action="{% url 'comment_group_post' group.id post.id %}">
+                                {% csrf_token %}
+                                <img src="{{ user.get_profile_photo_url }}" alt="Your Avatar" class="comment-avatar">
+                                <input type="text" name="content" placeholder="Write a comment..." required>
+                                <button type="submit" class="btn btn-primary btn-sm">Post</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </article>
+                    {% empty %}
+                    <div class="empty-state">
+                        {% if is_member %}
+                        <p>No posts yet. Be the first to post something!</p>
+                        {% elif group.is_private %}
+                        <p>🔒 This is a private group. Join to see posts.</p>
+                        {% else %}
+                        <p>No posts in this group yet.</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        function toggleComments(postId) {
+            const section = document.getElementById('comments-' + postId);
+            section.style.display = section.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        // Like button functionality
+        document.querySelectorAll('.like-btn').forEach(btn => {
+            btn.addEventListener('click', async function() {
+                const groupId = this.dataset.groupId;
+                const postId = this.dataset.postId;
+                
+                const response = await fetch(`/group/${groupId}/post/${postId}/like/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    this.classList.toggle('liked', data.liked);
+                    const statsEl = this.closest('.post-footer').querySelector('.post-stats span');
+                    statsEl.textContent = data.like_count + ' like' + (data.like_count !== 1 ? 's' : '');
+                }
+            });
+        });
+        
+        // Post menu toggle
+        document.querySelectorAll('.menu-toggle').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const menu = this.nextElementSibling;
+                menu.classList.toggle('show');
+            });
+        });
+        
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+        });
+    </script>
+</body>
+</html>

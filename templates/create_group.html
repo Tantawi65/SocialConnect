@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Group - Social Connect</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/groups.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <h1>Social Connect</h1>
+                </div>
+            </div>
+            
+            <div class="nav-center">
+                <div class="nav-menu">
+                    <a href="{% url 'home' %}" class="nav-item">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <a href="{% url 'groups' %}" class="nav-item active">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">Groups</span>
+                    </a>
+                    <a href="{% url 'messages' %}" class="nav-item">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Messages</span>
+                    </a>
+                    <a href="{% url 'notifications' %}" class="nav-item">
+                        <span class="nav-icon">🔔</span>
+                        <span class="nav-text">Notifications</span>
+                    </a>
+                    <a href="{% url 'profile' %}" class="nav-item">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">Profile</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <div class="user-menu">
+                    <img src="{{ user.get_profile_photo_url }}" alt="User Avatar" class="user-avatar" />
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container create-group-page">
+        <div class="form-container">
+            <div class="form-header">
+                <a href="{% url 'groups' %}" class="back-link">← Back to Groups</a>
+                <h1>Create a New Group</h1>
+                <p>Build a community around your interests</p>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" class="create-group-form">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="name">Group Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter group name" maxlength="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4" placeholder="What is your group about?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="cover_photo">Cover Photo</label>
+                    <div class="file-upload-area">
+                        <input type="file" id="cover_photo" name="cover_photo" accept="image/*">
+                        <div class="upload-placeholder">
+                            <span class="upload-icon">📷</span>
+                            <span>Click to upload or drag and drop</span>
+                            <span class="upload-hint">Recommended: 1200 x 400 pixels</span>
+                        </div>
+                        <div class="upload-preview" id="cover-preview" style="display: none;">
+                            <img src="" alt="Preview">
+                            <button type="button" class="remove-preview" onclick="removePreview()">✕</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group privacy-group">
+                    <label>Privacy</label>
+                    <div class="privacy-options">
+                        <label class="privacy-option">
+                            <input type="radio" name="is_private" value="" checked>
+                            <div class="option-content">
+                                <span class="option-icon">🌍</span>
+                                <div class="option-text">
+                                    <strong>Public</strong>
+                                    <span>Anyone can see who's in the group and what they post.</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="privacy-option">
+                            <input type="radio" name="is_private" value="on">
+                            <div class="option-content">
+                                <span class="option-icon">🔒</span>
+                                <div class="option-text">
+                                    <strong>Private</strong>
+                                    <span>Only members can see who's in the group and what they post. Join requests require approval.</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="{% url 'groups' %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Create Group</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Cover photo preview
+        document.getElementById('cover_photo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('cover-preview');
+                    preview.querySelector('img').src = e.target.result;
+                    preview.style.display = 'block';
+                    document.querySelector('.upload-placeholder').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function removePreview() {
+            document.getElementById('cover_photo').value = '';
+            document.getElementById('cover-preview').style.display = 'none';
+            document.querySelector('.upload-placeholder').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>

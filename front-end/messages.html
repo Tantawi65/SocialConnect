@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Messages - Social Connect</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/messages.css" />
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo and Search -->
+            <div class="nav-left">
+                <div class="logo">
+                    <h1>Social Connect</h1>
+                </div>
+                <div class="search-container">
+                    <input type="search" class="search-input" placeholder="Search Social Connect..." />
+                    <button class="search-btn" type="button">
+                        <span class="search-icon">🔍</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <div class="nav-center">
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-item">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Home</span>
+                    </a>
+                    <a href="messages.html" class="nav-item active">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Messages</span>
+                    </a>
+                    <a href="profile.html" class="nav-item">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">Profile</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- User Actions -->
+            <div class="nav-right">
+
+                <div class="user-menu">
+                    <img src="images/default-avatar.jpg" alt="User Avatar" class="user-avatar" />
+                    <div class="dropdown-menu">
+                        <a href="profile.html" class="dropdown-item">My Profile</a>
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="login.html" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages Container -->
+    <main class="messages-container">
+        <!-- Conversations Sidebar -->
+        <aside class="conversations-sidebar">
+            <header class="sidebar-header">
+                <h2 class="sidebar-title">Messages</h2>
+                <button class="new-message-btn" type="button">
+                    <span class="btn-icon">✏️</span>
+                </button>
+            </header>
+            
+            <!-- Search Conversations -->
+            <div class="search-conversations">
+                <input type="search" class="conversation-search" placeholder="Search conversations..." />
+            </div>
+            
+            <!-- Conversations List -->
+            <div class="conversations-list">
+                <!-- Conversations will be loaded dynamically by JavaScript -->
+            </div>
+        </aside>
+
+        <!-- Chat Window -->
+        <section class="chat-window">
+            <!-- No Conversation Selected State -->
+            <div class="no-conversation" id="no-conversation">
+                <div class="no-conversation-content">
+                    <div class="no-conversation-icon">💬</div>
+                    <h3>Your Messages</h3>
+                    <p>Send private photos and messages to a friend or group.</p>
+                    <button class="btn btn-primary new-message-btn" type="button">Send Message</button>
+                </div>
+            </div>
+
+            <!-- Active Chat -->
+            <div class="active-chat hidden" id="active-chat">
+                <!-- Chat Header -->
+                <header class="chat-header">
+                    <div class="chat-user-info">
+                        <img src="images/default-avatar.jpg" alt="Sarah Johnson" class="chat-avatar" />
+                        <div class="chat-user-details">
+                            <h3 class="chat-user-name">Sarah Johnson</h3>
+                            <span class="chat-user-status">Active now</span>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-actions">
+                        <!-- Icons removed as requested -->
+                    </div>
+                </header>
+
+                <!-- Messages Area -->
+                <div class="messages-area" id="messages-area">
+                    <div class="messages-list">
+                        <!-- Date Divider -->
+                        <div class="date-divider">
+                            <span class="date-text">Today</span>
+                        </div>
+                        
+                        <!-- Received Message -->
+                        <div class="message received">
+                            <img src="images/default-avatar.jpg" alt="Sarah" class="message-avatar" />
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    <p>Hey! How's your project coming along? I saw your last post and it looks really interesting!</p>
+                                </div>
+                                <time class="message-time">2:43 PM</time>
+                            </div>
+                        </div>
+                        
+                        <!-- Sent Message -->
+                        <div class="message sent">
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    <p>Thanks! It's been challenging but really rewarding. I'm learning so much from it.</p>
+                                </div>
+                                <time class="message-time">2:44 PM</time>
+                            </div>
+                        </div>
+                        
+                        <!-- Received Message with Image -->
+                        <div class="message received">
+                            <img src="images/default-avatar.jpg" alt="Sarah" class="message-avatar" />
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    <p>That's awesome! Keep it up 💪</p>
+                                </div>
+                                <time class="message-time">2:45 PM</time>
+                            </div>
+                        </div>
+                        
+                        <!-- Typing Indicator -->
+                        <div class="message received typing-indicator hidden">
+                            <img src="images/default-avatar.jpg" alt="Sarah" class="message-avatar" />
+                            <div class="message-content">
+                                <div class="message-bubble typing-bubble">
+                                    <div class="typing-dots">
+                                        <span class="typing-dot"></span>
+                                        <span class="typing-dot"></span>
+                                        <span class="typing-dot"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message Input Area -->
+                <footer class="message-input-area">
+                    <div class="input-container">
+                        <button class="input-action-btn" id="attach-button" type="button" title="Attach file">
+                            <span class="action-icon">📎</span>
+                        </button>
+                        
+                        <button class="input-action-btn" id="photo-button" type="button" title="Add photo">
+                            <span class="action-icon">📷</span>
+                        </button>
+                        
+                        <div class="message-input-wrapper">
+                            <textarea 
+                                class="message-input" 
+                                placeholder="Type a message..." 
+                                rows="1"
+                                id="message-input"
+                            ></textarea>
+                        </div>
+                        
+                        <button class="send-btn" type="button" id="send-btn" disabled="disabled">
+                            <span class="send-icon">➤</span>
+                        </button>
+                    </div>
+                    
+                    <!-- File Upload Preview -->
+                    <div class="file-preview hidden" id="file-preview">
+                        <div class="preview-content">
+                            <img class="preview-image hidden" alt="File preview" />
+                            <div class="preview-file-info hidden">
+                                <span class="file-name"></span>
+                                <span class="file-size"></span>
+                            </div>
+                        </div>
+                        <button class="remove-file-btn" type="button">&times;</button>
+                    </div>
+                    
+                    <input type="file" class="file-input hidden" id="file-input" accept="image/*,video/*,.pdf,.doc,.docx" />
+                </footer>
+            </div>
+        </section>
+    </main>
+
+    <!-- New Message Modal -->
+    <div class="modal hidden" id="new-message-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>New Message</h2>
+                <button class="modal-close-btn" type="button">&times;</button>
+            </header>
+            
+            <div class="modal-body">
+                <div class="recipient-search">
+                    <label class="search-label">To:</label>
+                    <input type="search" class="recipient-input" placeholder="Search people..." />
+                </div>
+                
+                <div class="suggested-contacts">
+                    <h4>Suggested</h4>
+                    <div class="contacts-list">
+                        <div class="contact-item" data-user-id="2">
+                            <img src="images/default-avatar.jpg" alt="Mike Chen" class="contact-avatar" />
+                            <span class="contact-name">Mike Chen</span>
+                        </div>
+                        <div class="contact-item" data-user-id="3">
+                            <img src="images/default-avatar.jpg" alt="Emma Wilson" class="contact-avatar" />
+                            <span class="contact-name">Emma Wilson</span>
+                        </div>
+                        <div class="contact-item" data-user-id="4">
+                            <img src="images/default-avatar.jpg" alt="Alex Thompson" class="contact-avatar" />
+                            <span class="contact-name">Alex Thompson</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="message-compose">
+                    <textarea class="compose-input" placeholder="Write a message..." rows="3"></textarea>
+                </div>
+            </div>
+            
+            <footer class="modal-footer">
+                <button class="btn btn-cancel" type="button">Cancel</button>
+                <button class="btn btn-send" type="button" disabled="disabled">Send</button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script type="text/javascript" src="js/auth.js"></script>
+    <script type="text/javascript" src="js/messages.js"></script>
+</body>
+</html>
